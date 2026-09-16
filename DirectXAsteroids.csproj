@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DirectXAsteroids</RootNamespace>
+    <StartupObject>DirectXAsteroids.Asteroids</StartupObject>  
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+   <ItemGroup>
+     <PackageReference Include="SlimDX" Version="4.0.13.44" />
+  </ItemGroup> 
+</Project>
