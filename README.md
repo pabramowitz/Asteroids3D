@@ -1,4 +1,2 @@
-# Asteroids3D
-SlimDX version of Asteroids
-
-(This does not currently run)
+# B2Asteroids
+C# Windows Forms Asteroids

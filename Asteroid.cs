@@ -1,23 +1,73 @@
-using System;
-using D3X = SlimDX;
+// Inside your Asteroid class/struct
+using System.Drawing;
+using System.Numerics;
 
-namespace DirectXAsteroids
+namespace Asteroids
 {
-  internal class Asteroid: DisplayObject
-  {
-    /// <summary>
-    /// Custom Rotation
-    /// </summary>
-    internal D3X.Vector3 Rotation;
+    public class Asteroid: Polygon
+    {
+        private const int AsteroidPoints = 8;
 
-    /// <summary>
-    /// Size of asteroid
-    /// </summary>
-    internal int Size;
+        public static Random RandomNumberGenerator = new Random();
 
-    /// <summary>
-    /// Heading of asteroid (0-360)
-    /// </summary>
-    internal int AngleHeading;
-  }
+        public double Radius; // Used for broad-phase collision / bounding circle
+        public Color Color { get; private set; }
+        public SolidBrush Brush { get; private set; }
+
+        private static Color MakeRandomColor()
+        {
+            return Color.FromArgb(
+                255,
+                RandomNumberGenerator.Next(80, 256),
+                RandomNumberGenerator.Next(80, 256),
+                RandomNumberGenerator.Next(80, 256));
+        }
+
+        // Call this when spawning the asteroid
+        public Asteroid(double radius, Vector2 position, int heading, double speed, int width, int height): base(AsteroidPoints)
+        {
+            // Define initial shape
+            ShapeVertices = new PointF[VertexCount];
+            PositionVertices = new PointF[VertexCount];
+            float angleStep = MathF.Tau / VertexCount;
+            Radius = radius;
+            Heading = heading;
+            Speed = speed;
+            Position = position;
+
+            Color = MakeRandomColor();
+            Brush = new SolidBrush(Color);
+
+            for (int i = 0; i < VertexCount; i++)
+            {
+                double angle = i * angleStep;
+                // Vary the radius slightly for an irregular jagged look
+                double variance = 0.7f + 0.6f * RandomNumberGenerator.NextDouble();
+                double r = Radius * variance;
+
+                ShapeVertices[i] = new PointF((float)(Math.Cos(angle) * r), (float)(Math.Sin(angle) * r));
+            }
+
+        }
+        public void UpdateShape()
+        {
+            // No-op for now: drawing will be handled by MonoGame in AsteroidsGame.
+        }
+
+        public void MoveAsteroid(int width, int height)
+        {
+            // Compute new position
+            Position.X += (float)(Speed * Math.Sin(Heading));
+            Position.Y += (float)(Speed * Math.Cos(Heading));
+
+            Position = ClipPosition(Position, width, height);
+
+            for (int i = 0; i < VertexCount; i++)
+            {
+                PositionVertices[i].X = ShapeVertices[i].X + Position.X;
+                PositionVertices[i].Y = ShapeVertices[i].Y + Position.Y;
+            }
+        }
+    }
 }
+
