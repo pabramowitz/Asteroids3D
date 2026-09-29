@@ -1,6 +1,5 @@
 // Inside your Asteroid class/struct
 using System.Numerics;
-using System.Drawing;
 
 namespace Asteroids
 {
@@ -13,15 +12,15 @@ namespace Asteroids
         public int Heading;
         public double Speed;
 
-        public PointF[] ShapeVertices; // Shape centered at (0,0)
+        public Vector2[] ShapeVertices; // Shape centered at (0,0)
 
-        public PointF[] PositionVertices; // Shape in world space
+        public Vector2[] PositionVertices; // Shape in world space
 
         public Polygon(int vertexCount)
         {
             VertexCount = vertexCount;
-            ShapeVertices = new PointF[vertexCount];
-            PositionVertices = new PointF[vertexCount];
+            ShapeVertices = new Vector2[vertexCount];
+            PositionVertices = new Vector2[vertexCount];
         }
 
         public double  HeadingRadians

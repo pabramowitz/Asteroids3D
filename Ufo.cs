@@ -1,6 +1,5 @@
 // Inside your Asteroid class/struct
 using System.Numerics;
-using System.Drawing;
 
 namespace Asteroids
 {
@@ -8,24 +7,21 @@ namespace Asteroids
     {
         private const int UfoPoints = 8;
         private const int UfoSpeed = 4;
-        SolidBrush UfoBrush;
 
         // Call this when spawning the UFO
         public Ufo(): base(UfoPoints)
         {
-            UfoBrush = new SolidBrush(Color.LightGreen);
+            ShapeVertices = new Vector2[VertexCount];
+            PositionVertices = new Vector2[VertexCount];
 
-            ShapeVertices = new PointF[VertexCount];
-            PositionVertices = new PointF[VertexCount];
-
-            ShapeVertices[0] = new Point(14, 0);
-            ShapeVertices[1] = new Point(6, 0);
-            ShapeVertices[2] = new Point(5, -7);
-            ShapeVertices[3] = new Point(-4, -7);
-            ShapeVertices[4] = new Point(-6, 0);
-            ShapeVertices[5] = new Point(-14, 0);
-            ShapeVertices[6] = new Point(-11, 8);
-            ShapeVertices[7] = new Point(11, 8);
+            ShapeVertices[0] = new Vector2(14, 0);
+            ShapeVertices[1] = new Vector2(6, 0);
+            ShapeVertices[2] = new Vector2(5, -7);
+            ShapeVertices[3] = new Vector2(-4, -7);
+            ShapeVertices[4] = new Vector2(-6, 0);
+            ShapeVertices[5] = new Vector2(-14, 0);
+            ShapeVertices[6] = new Vector2(-11, 8);
+            ShapeVertices[7] = new Vector2(11, 8);
         }
 
         public void SetLocation(Vector2 position, int heading, int width, int height)

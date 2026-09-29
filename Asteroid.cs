@@ -1,5 +1,4 @@
 // Inside your Asteroid class/struct
-using System.Drawing;
 using System.Numerics;
 
 namespace Asteroids
@@ -11,13 +10,11 @@ namespace Asteroids
         public static Random RandomNumberGenerator = new Random();
 
         public double Radius; // Used for broad-phase collision / bounding circle
-        public Color Color { get; private set; }
-        public SolidBrush Brush { get; private set; }
+        public Microsoft.Xna.Framework.Color Color { get; }
 
-        private static Color MakeRandomColor()
+        private static Microsoft.Xna.Framework.Color MakeRandomColor()
         {
-            return Color.FromArgb(
-                255,
+            return new Microsoft.Xna.Framework.Color(
                 RandomNumberGenerator.Next(80, 256),
                 RandomNumberGenerator.Next(80, 256),
                 RandomNumberGenerator.Next(80, 256));
@@ -27,8 +24,8 @@ namespace Asteroids
         public Asteroid(double radius, Vector2 position, int heading, double speed, int width, int height): base(AsteroidPoints)
         {
             // Define initial shape
-            ShapeVertices = new PointF[VertexCount];
-            PositionVertices = new PointF[VertexCount];
+            ShapeVertices = new Vector2[VertexCount];
+            PositionVertices = new Vector2[VertexCount];
             float angleStep = MathF.Tau / VertexCount;
             Radius = radius;
             Heading = heading;
@@ -36,7 +33,6 @@ namespace Asteroids
             Position = position;
 
             Color = MakeRandomColor();
-            Brush = new SolidBrush(Color);
 
             for (int i = 0; i < VertexCount; i++)
             {
@@ -45,7 +41,7 @@ namespace Asteroids
                 double variance = 0.7f + 0.6f * RandomNumberGenerator.NextDouble();
                 double r = Radius * variance;
 
-                ShapeVertices[i] = new PointF((float)(Math.Cos(angle) * r), (float)(Math.Sin(angle) * r));
+                ShapeVertices[i] = new Vector2((float)(Math.Cos(angle) * r), (float)(Math.Sin(angle) * r));
             }
 
         }

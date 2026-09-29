@@ -1,19 +1,16 @@
 // Inside your Asteroid class/struct
 using System.Numerics;
-using System.Drawing;
 
 namespace Asteroids
 {
     public class Plane: Polygon
     {
-        private SolidBrush PlaneBrush;
-        private SolidBrush ThrustBrush;
 
         private const int PlanePoints = 12;
         private const int ThrustPoints = 3;
 
-        private PointF[]  ThrustShapeVertices;
-        private PointF[]  ThrustPositionVertices;
+        private Vector2[]  ThrustShapeVertices;
+        private Vector2[]  ThrustPositionVertices;
 
         public double SpeedX;
         public double SpeedY;
@@ -21,31 +18,28 @@ namespace Asteroids
         // Call this when spawning the plane
         public Plane(): base(PlanePoints)
         {
-            PlaneBrush = new SolidBrush(Color.Gray);
-            ThrustBrush = new SolidBrush(Color.Orange);
-
-            ShapeVertices = new PointF[VertexCount];
-            PositionVertices = new PointF[VertexCount];
+            ShapeVertices = new Vector2[VertexCount];
+            PositionVertices = new Vector2[VertexCount];
             
-            ThrustShapeVertices = new PointF[ThrustPoints];
-            ThrustPositionVertices = new PointF[ThrustPoints];
+            ThrustShapeVertices = new Vector2[ThrustPoints];
+            ThrustPositionVertices = new Vector2[ThrustPoints];
                     
-            ShapeVertices[0] = new Point(0, 4);
-            ShapeVertices[1] = new Point(2, 2);
-            ShapeVertices[2] = new Point(3, 4);
-            ShapeVertices[3] = new Point(5, 2);
-            ShapeVertices[4] = new Point(10, 5);
-            ShapeVertices[5] = new Point(13, 2);
-            ShapeVertices[6] = new Point(0, -12);
-            ShapeVertices[7] = new Point(-13, 2);
-            ShapeVertices[8] = new Point(-10, 5);
-            ShapeVertices[9] = new Point(-5, 2);
-            ShapeVertices[10] = new Point(-3, 4);
-            ShapeVertices[11] = new Point(-2, 2);
+            ShapeVertices[0] = new Vector2(0, 4);
+            ShapeVertices[1] = new Vector2(2, 2);
+            ShapeVertices[2] = new Vector2(3, 4);
+            ShapeVertices[3] = new Vector2(5, 2);
+            ShapeVertices[4] = new Vector2(10, 5);
+            ShapeVertices[5] = new Vector2(13, 2);
+            ShapeVertices[6] = new Vector2(0, -12);
+            ShapeVertices[7] = new Vector2(-13, 2);
+            ShapeVertices[8] = new Vector2(-10, 5);
+            ShapeVertices[9] = new Vector2(-5, 2);
+            ShapeVertices[10] = new Vector2(-3, 4);
+            ShapeVertices[11] = new Vector2(-2, 2);
 
-            ThrustShapeVertices[0] = new Point(0, 25);
-            ThrustShapeVertices[1] = new Point(5, 10);
-            ThrustShapeVertices[2] = new Point(-5, 10);
+            ThrustShapeVertices[0] = new Vector2(0, 25);
+            ThrustShapeVertices[1] = new Vector2(5, 10);
+            ThrustShapeVertices[2] = new Vector2(-5, 10);
         }
 
         public void SetLocation(Vector2 position, int heading, double speedX, double speedY, int width, int height)
@@ -79,57 +73,10 @@ namespace Asteroids
             }
         }
 
-        public void Draw(Graphics gc)
+        // MonoGame will handle drawing based on PositionVertices and ThrustPositionVertices.
+        public void UpdateShape()
         {
-            // Draw hard-edged shadow/highlight for cel-shading effect
-            PointF[] shadowVertices = new PointF[PositionVertices.Length];
-            for (int i = 0; i < PositionVertices.Length; i++)
-            {
-                shadowVertices[i] = new PointF(PositionVertices[i].X + 4, PositionVertices[i].Y + 4);
-            }
-
-            using (Brush shadowBrush = new SolidBrush(Color.FromArgb(100, Color.Black)))
-            {
-                gc.FillPolygon(shadowBrush, shadowVertices);
-            }
-
-            // Draw the main plane body
-            gc.FillPolygon(this.PlaneBrush, this.PositionVertices);
-
-            // Draw a thick, cartoon-style black outline
-            using (Pen outlinePen = new Pen(Color.Black, 3))
-            {
-                gc.DrawPolygon(outlinePen, this.PositionVertices);
-            }
-        }
-
-        public void Draw(Graphics gc, bool isAccelerating)
-        {
-            // Draw plane
-            Draw(gc);
-
-            // Draw flame if accelerating
-            if (isAccelerating)
-            {
-                // Draw thrust if accelerating (assuming you draw thrust when moving)
-                PointF[] thrustShadowVertices = new PointF[ThrustPositionVertices.Length];
-                for (int i = 0; i < ThrustPositionVertices.Length; i++)
-                {
-                    thrustShadowVertices[i] = new PointF(ThrustPositionVertices[i].X + 4, ThrustPositionVertices[i].Y + 4);
-                }
-
-                using (Brush shadowBrush = new SolidBrush(Color.FromArgb(100, Color.Black)))
-                {
-                    gc.FillPolygon(shadowBrush, thrustShadowVertices);
-                }
-
-                gc.FillPolygon(this.ThrustBrush, this.ThrustPositionVertices);
-
-                using (Pen outlinePen = new Pen(Color.Black, 3))
-                {
-                    gc.DrawPolygon(outlinePen, this.ThrustPositionVertices);
-                }
-            }
+            // No-op placeholder for future per-frame shape updates if needed.
         }
     }
 }
